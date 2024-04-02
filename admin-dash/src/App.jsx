@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import useAuth from './components/hooks/useAuth';
 import Status from './components/Status/Status';
 import axios from 'axios';
 import { Form, Button } from "react-bootstrap";
@@ -22,7 +21,7 @@ const App = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [validated, setValidated] = useState(false);
 
-  const authenticated = useAuth();
+
 
   useEffect(() => {
     if (username && pass && name && role && description && file) {
@@ -50,16 +49,28 @@ const App = () => {
     setUsername(e.target.value);
   };
 
+  // const handleFileChange = (event) => {
+  //   const files = event.target.files[0];
+  //   setfile(files);
+  // };
+
   const handleFileChange = (event) => {
     const files = event.target.files;
     const filesArray = Array.from(files);
-    console.log(filesArray);
     setfile(filesArray);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+
+      // const formData = new FormData();
+      // formData.append("name", name);
+      // formData.append("role", role);
+      // formData.append("description", description);
+      // // formData.append("file", file[0]);
+      // formData.append("username", username);
+      // formData.append("password", pass);
 
 
       console.log("Posting Team...");
@@ -68,13 +79,14 @@ const App = () => {
         role: role,
         description: description,
         username: username,
-        password: pass
-      },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        password: pass,
+        file: file[0]
+      
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
       );
 
       setName("");
@@ -104,10 +116,6 @@ const App = () => {
 
     if (text.includes('403')) {
       text = 'Invalid credentials. Please try again.';
-    }
-
-    if (text.includes('400')) {
-      text = 'Please fill in all required fields.';
     }
 
     if (text.includes('500')) {
@@ -229,7 +237,7 @@ const App = () => {
                       type="file"
                       className="form-control-"
                       onChange={handleFileChange}
-                      multiple={true}
+                      // multiple={true}
                       placeholder="Add Photo"
                     />
                   </div>
