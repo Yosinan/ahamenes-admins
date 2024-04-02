@@ -3,9 +3,10 @@ const Team = require('../models/teamModel');
 const multer = require('multer');
 const path = require('path');
 
+
 // Set up multer for file uploads
 const Storage = multer.diskStorage({
-    destination: '../admin-dash/uploads/img',
+    destination: '../admin-dash/uploads/team/img',
     filename: (req, file, cb) => {
         cb(null, Date.now() + file.originalname);
     },
@@ -25,7 +26,22 @@ const upload = multer({
             cb(new Error('Only images are allowed'));
         }
     }
-}).array('images', 1);
+}).array('file', 7);
+
+
+
+// Multer storage configuration
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, '../admin-dash/uploads/team/img') 
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, Date.now() + path.extname(file.originalname))
+//     }
+// });
+
+// // Initialize multer upload middleware with the specified storage configuration
+// const upload = multer({ storage: storage }).single('file');
 
 
 // Set up routes for Teams
@@ -39,43 +55,42 @@ const addTeam = async (req, res) => {
                 return res.status(500).send(err.message);
             }
 
-            // if (!req.files) {
-            //     return res.status(400).send('No images uploaded or no files found');
+            if (!req.files) {
+                return res.status(400).send('No images uploaded or no files found');
+            }
+            if (req.files.length > 1) {
+                return res.status(400).send('Too many images uploaded');
+            }
 
-            // }
-            // if (req.files.length > 1) {
-            //     return res.status(400).send('Too many images uploaded');
-            // }
 
+            const img = req.files.map((file) => {
+                return {
+                    mimetype: file.mimetype,
+                    filename: file.filename,
+                }
+            }
+            );
 
-            // const imgArray = req.files.map((file) => {
-            //     return {
-            //         mimetype: file.mimetype,
-            //         filename: file.filename,
-            //     }
-            // });
-
-         
             const team = new Team({
                 name: req.body.name,
                 role: req.body.role,
                 description: req.body.description,
-                // images: imgArray,
+                // images: img,
                 // addedBy: req.team._id,
                 // addedByteamname: req.team.name,
             })
 
-            console.log(team);
+            // console.log(team);
             const t = await team.save();
             if (!t) {
                 return json.status(400).send("Team not saved");
             }
             res.status(201).json({ Team, message: 'Team added successfully' });
-        
-    });
+
+        });
 
     } catch (err) {
-        res.status(500).send("Our side " + err);
+        res.status(500).send("Our side: " + err);
     }
 };
 
@@ -92,7 +107,7 @@ const getTeams = async (req, res, next) => {
 
 const getTeamById = async (req, res, next) => {
     try {
-        
+
         const team = await Team.findOne({ _id: req.params.id });
         if (!team) {
             return res.status(404).send("Team not found");
@@ -163,5 +178,5 @@ module.exports = {
     deleteTeam,
     addTeam,
     editTeam,
-    searchTeams 
+    searchTeams
 }

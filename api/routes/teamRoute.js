@@ -18,7 +18,7 @@ app.use(cors());
 
 // using the APIs
 
-router.post("/api/team/add",auth,  addTeam);
+router.post("/api/team/add",  addTeam);
 router.put("/api/team/edit/:id", auth, editTeam);
 router.delete("/api/team/delete/:id", auth, deleteTeam);
 router.get("/api/team/", getTeams);

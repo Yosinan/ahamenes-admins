@@ -38,7 +38,6 @@ const eventSchema = new mongoose.Schema({
         // required: true,
     },
 
-    
 
     dateAdded: {
         // type: Date,

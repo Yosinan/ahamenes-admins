@@ -4,28 +4,28 @@ const multer = require('multer');
 const path = require('path');
 
 // Set up multer for file uploads
-// const Storage = multer.diskStorage({
-//     destination: '../frontend/public/uploads/img',
-//     filename: (req, file, cb) => {
-//         cb(null, Date.now() + file.originalname);
-//     },
-// });
+const Storage = multer.diskStorage({
+    destination: '../admin-dash/uploads/event/img',
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + file.originalname);
+    },
+});
 
 
-// const upload = multer({
-//     storage: Storage,
-//     limits: {
-//         fileSize: 1024 * 1024 * 5 // 5MB
-//     },
-//     fileFilter: (req, file, cb) => {
-//         if (file.mimetype.startsWith('image/')) {
-//             cb(null, true);
-//         }
-//         else {
-//             cb(new Error('Only images are allowed'));
-//         }
-//     }
-// }).array('images', 7);
+const upload = multer({
+    storage: Storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5 // 5MB
+    },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        }
+        else {
+            cb(new Error('Only images are allowed'));
+        }
+    }
+}).array('images', 7);
 
 
 // Set up routes for Events
@@ -73,7 +73,6 @@ const addEvent = async (req, res) => {
             return json.status(400).send("Event not saved");
         }
         res.status(201).json({ event, message: 'Event added successfully' });
-        // imageUrl: `../uploads/img/${req.files[0].filename}`
 
     } catch (err) {
         res.status(500).send("Our side " + err);
