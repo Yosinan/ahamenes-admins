@@ -5,7 +5,7 @@ const path = require('path');
 
 // Set up multer for file uploads
 const Storage = multer.diskStorage({
-    destination: '../frontend/public/uploads/img',
+    destination: '../admin-dash/uploads/img',
     filename: (req, file, cb) => {
         cb(null, Date.now() + file.originalname);
     },
