@@ -25,10 +25,10 @@ const App = () => {
   const authenticated = useAuth();
 
   useEffect(() => {
-    if (name && role && description && file) {
+    if (username && pass && name && role && description && file) {
       setValidated(true);
     }
-  }, [name, role, description, file]);
+  }, [username, pass, name, role, description, file]);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -53,27 +53,29 @@ const App = () => {
   const handleFileChange = (event) => {
     const files = event.target.files;
     const filesArray = Array.from(files);
+    console.log(filesArray);
     setfile(filesArray);
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === '-' || event.key === '+' || event.key === 'e') {
-      event.preventDefault();
-    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+
+
+      console.log("Posting Team...");
       await axios.post("http://localhost:5000/api/team/add", {
         name: name,
         role: role,
         description: description,
-        // images: file,
         username: username,
-        password: pass,
-
-      });
+        password: pass
+      },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       setName("");
       setRole("");
@@ -81,11 +83,11 @@ const App = () => {
       setfile("");
       handleSuccess();
 
-      // window.location = "/dashboard";
+      window.location = "/";
       console.log("Team posted successfully");
     } catch (error) {
       console.error("Error posting Team:", error.message);
-      handleError();
+      handleError(error.message);
     }
 
     setValidated(true);
@@ -98,7 +100,19 @@ const App = () => {
     }, 3000);
   };
 
-  const handleError = (text = 'Something went wrong. Please try again.') => {
+  const handleError = (text) => {
+
+    if (text.includes('403')) {
+      text = 'Invalid credentials. Please try again.';
+    }
+
+    if (text.includes('400')) {
+      text = 'Please fill in all required fields.';
+    }
+
+    if (text.includes('500')) {
+      text = 'Something went wrong. Please try again.';
+    }
     setErrorMessage(text);
     setTimeout(() => {
       setErrorMessage('');
@@ -132,9 +146,11 @@ const App = () => {
       {/* <button className='btn btn-outline-grey' onClick={() => window.location = "/"}><FontAwesomeIcon icon={faArrowLeft} /> Go back</button> */}
       <div>
         <div class="wrapper">
+
           <Form noValidate validated={validated} id="order-form" onSubmit={handleSubmit}>
             <Form.Group className="ordershadow" id="wizard" controlId="formName">
               <h3>Our Teams</h3>
+
               <ul className="steps">
                 {["", "", ""].map((step, index) => (
                   <li key={index} className={`${stepStatuses[index] ? "completed" : ""
@@ -144,8 +160,12 @@ const App = () => {
                 ))}
               </ul>
               <h4></h4>
+
               {currentStep === 0 && (
                 <section>
+                  {validated && (
+                    <p className="error-message">Please fill in all required fields.</p>
+                  )}
                   <div className="form-group">
                     <h5>Username <span className="required-indicator">*</span></h5>
                     <div className="form-row">
@@ -163,10 +183,9 @@ const App = () => {
                   <div className="form-row">
                     <input
                       required
-                      type="text"
+                      type="password"
                       className="form-control-lg"
                       value={pass}
-                      onKeyDown={handleKeyPress}
                       onChange={handlePassChange}
                       placeholder="password"
                     />
@@ -177,6 +196,9 @@ const App = () => {
               <h4></h4>
               {currentStep === 1 && (
                 <section>
+                  {validated && (
+                    <p className="error-message">Please fill in all required fields.</p>
+                  )}
                   <div className="form-group">
                     <h5>Name <span className="required-indicator">*</span></h5>
                     <div className="form-row">
@@ -197,7 +219,6 @@ const App = () => {
                       type="text"
                       className="form-control-lg"
                       value={role}
-                      onKeyDown={handleKeyPress}
                       onChange={handleroleChange}
                       placeholder="Role"
                     />
@@ -223,6 +244,7 @@ const App = () => {
                       style={{ Height: "108px" }}
                     ></textarea>
                   </div>
+                  <button className='btn btn-light' onClick={handlePreviousClick}> <FontAwesomeIcon icon={faArrowLeft} /> </button>
                   <Button variant='primary' onClick={handleNextClick}><FontAwesomeIcon icon={faArrowRight} /></Button>
                 </section>
               )}

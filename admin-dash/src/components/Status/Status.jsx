@@ -7,7 +7,7 @@ const Status = ({ message, type }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
-        }, 3000);
+        }, 5000);
 
         return () => {
             clearTimeout(timer);
