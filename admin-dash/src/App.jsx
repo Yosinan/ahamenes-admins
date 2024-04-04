@@ -127,6 +127,7 @@ const App = () => {
     }, 3000);
   };
 
+
   const handleNextClick = () => {
     const updatedStepStatuses = [...stepStatuses];
     updatedStepStatuses[currentStep] = true;
@@ -284,7 +285,6 @@ const App = () => {
           </Form>
         </div>
       </div>
-
     </>
   )
 }
