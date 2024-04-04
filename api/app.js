@@ -5,6 +5,8 @@ const statusRouter = require("./routes/status");
 const eventRouter = require("./routes/eventRoute");
 const emailRouter = require("./routes/emailRoute");
 const errorHandler = require('./middlewares/errorHandler').default;
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -12,6 +14,8 @@ const app = express();
 // start database connection
 start();
 
+// Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(express.static("static"));
 app.use(cors());
