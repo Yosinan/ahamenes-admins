@@ -11,6 +11,10 @@
         {
             "name": "admins",
             "description": "Secured Admin-only calls"
+        },
+        {
+            "name": "users",
+            "description": "Public User calls"
         }
     ],
     "schemes": [
@@ -19,24 +23,285 @@
     ],
     "paths": {
         "/send-email": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Send Email",
+                "description": "Endpoint to send user feedback to Ahamenes Space Club.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Request body containing email details.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "(Optional) Name of the sender."
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "description": "Email address of the sender.",
+                                    "required": true
+                                },
+                                "subject": {
+                                    "type": "string",
+                                    "description": "Subject of the email.",
+                                    "required": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "Message from the sender.",
+                                    "required": true
+                                }
+                            },
+                            "example": {
+                                "name": "John Doe",
+                                "email": "example@example.com",
+                                "subject": "Sample Subject",
+                                "message": "This is a sample message."
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email sent successfully."
+                    },
+                    "404": {
+                        "description": "Email not sent."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/team": {
             "get": {
                 "tags": [
-                    "admins"
+                    "users"
                 ],
-                "summary": "Send email", 
-                "description": "Send user feedback to ahamenes space club",
+                "summary": "Get Team",
+                "description": "Endpoint to get the team members of Ahamenes Space Club.",
                 "produces": [
                     "application/json"
                 ],
                 "responses": {
                     "200": {
-                        "description": "Email sent successfully"
+                        "description": "Team members retrieved successfully."
                     },
                     "404": {
-                        "description": "Email not sent"
+                        "description": "Team members not found."
                     },
                     "500": {
-                        "description": "Internal server error"
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "team/add": {
+            "post": {
+                "tags": [
+                    "admins"
+                ],
+                "summary": "Add Team Member",
+                "description": "Endpoint to add a team member to Ahamenes Space Club.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Request body containing team member details.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "Name of the team member.",
+                                    "required": true
+                                },
+                                "role": {
+                                    "type": "string",
+                                    "description": "Role of the team member.",
+                                    "required": true
+                                },
+                                "image": {
+                                    "type": "string",
+                                    "description": "URL of the team member's image.",
+                                    "required": true
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "Description of the team member."
+                                }
+                            },
+                            "example": {
+                                "name": "John Doe",
+                                "role": "Software Engineer",
+                                "image": "https://example.com/image.jpg",
+                                "description": "This is a sample description."
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Team member added successfully."
+                    },
+                    "404": {
+                        "description": "Team member not added."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/team/update/{id}": {
+            "put": {
+                "tags": [
+                    "admins"
+                ],
+                "summary": "Update Team Member",
+                "description": "Endpoint to update a team member of Ahamenes Space Club.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Request body containing team member details.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "Name of the team member.",
+                                    "required": true
+                                },
+                                "role": {
+                                    "type": "string",
+                                    "description": "Role of the team member.",
+                                    "required": true
+                                },
+                                "image": {
+                                    "type": "string",
+                                    "description": "URL of the team member's image.",
+                                    "required": true
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "Description of the team member."
+                                }
+                            },
+                            "example": {
+                                "name": "John Doe",
+                                "role": "Software Engineer",
+                                "image": "https://example.com/image.jpg",
+                                "description": "This is a sample description."
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Team member updated successfully."
+                    },
+                    "404": {
+                        "description": "Team member not updated."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "team/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "admins"
+                ],
+                "summary": "Delete Team Member",
+                "description": "Endpoint to delete a team member from Ahamenes Space Club.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Team member deleted successfully."
+                    },
+                    "404": {
+                        "description": "Team member not deleted."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/team/search/{name}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Search Team Members",
+                "description": "Endpoint to search for team members of Ahamenes Space Club.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search query for team members.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Team members retrieved successfully."
+                    },
+                    "404": {
+                        "description": "Team members not found."
+                    },
+                    "500": {
+                        "description": "Internal server error."
+                    }
+                }
+            }
+        },
+        "/team/{id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get Team Member",
+                "description": "Endpoint to get a team member of Ahamenes Space Club.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Team member retrieved successfully."
+                    },
+                    "404": {
+                        "description": "Team member not found."
+                    },
+                    "500": {
+                        "description": "Internal server error."
                     }
                 }
             }
