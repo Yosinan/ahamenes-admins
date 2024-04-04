@@ -1,0 +1,59 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Ahamenes-Space Club Website API",
+        "version": "1.0.0",
+        "description": "An API for handling user feedback and comments on the Ahamenes Space Club website"
+    },
+    "host": "ahamenes-admin.onrender.com",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "admins",
+            "description": "Secured Admin-only calls"
+        }
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/send-email": {
+            "get": {
+                "tags": [
+                    "admins"
+                ],
+                "summary": "Send email", 
+                "description": "Send user feedback to ahamenes space club",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email sent successfully"
+                    },
+                    "404": {
+                        "description": "Email not sent"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "BearerAuth": []
+        }
+    ]
+}
