@@ -8,6 +8,6 @@ app.use(cors());
 
 // using the APIs
 
-router.post("/api/send-email", sendEmail);
+router.post("/", sendEmail);
 
 module.exports = router;

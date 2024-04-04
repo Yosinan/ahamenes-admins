@@ -19,9 +19,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-app.use('/', teamRouter);
-app.use('/', statusRouter);
-app.use('/', emailRouter);
+app.use('/api/team', teamRouter);
+app.use('/status', statusRouter);
+app.use('/api/send-email', emailRouter);
 app.use('/api/event', eventRouter);
 
 // Error handler
