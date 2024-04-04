@@ -55,21 +55,21 @@ const addTeam = async (req, res) => {
                 return res.status(500).send(err.message);
             }
 
-            if (!req.files) {
-                return res.status(400).send('No images uploaded or no files found');
-            }
-            if (req.files.length > 1) {
-                return res.status(400).send('Too many images uploaded');
-            }
+            // if (!req.files) {
+            //     return res.status(400).send('No images uploaded or no files found');
+            // }
+            // if (req.files.length > 1) {
+            //     return res.status(400).send('Too many images uploaded');
+            // }
 
 
-            const img = req.files.map((file) => {
-                return {
-                    mimetype: file.mimetype,
-                    filename: file.filename,
-                }
-            }
-            );
+            // const img = req.files.map((file) => {
+            //     return {
+            //         mimetype: file.mimetype,
+            //         filename: file.filename,
+            //     }
+            // }
+            // );
 
             const team = new Team({
                 name: req.body.name,
