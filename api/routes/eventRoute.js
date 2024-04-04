@@ -17,8 +17,8 @@ app.use(cors());
 
 // using the APIs
 
-router.post("/add",  addEvent);
-router.put("/edit/:id",  editEvent);
+router.post("/add", addEvent);
+router.put("/edit/:id", editEvent);
 router.delete("/delete/:id", deleteEvent);
 router.get("/", getEvents);
 router.get("/:id", getEventById);
