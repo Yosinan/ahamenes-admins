@@ -14,7 +14,10 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async (req, res) => {
-    const { subject, message, email, senderName } = req.body;
+    const { subject, message, email, name } = req.body;
+
+    console.log("Name:", name);
+    console.log("Email:", email);
 
     if (!subject || !message || !email) {
         return res
@@ -27,11 +30,13 @@ const sendEmail = async (req, res) => {
         subject,
         message,
         email,
-        senderName
+        name
     });
 
     try {
         await comment.save();
+
+        
 
         const htmlEmailTemplate = `
 <!DOCTYPE html>
@@ -85,7 +90,7 @@ const sendEmail = async (req, res) => {
     <div class="container">
         <h2>New message received from:</h2>
         <div class="message-details">
-            ${senderName ? `<p><strong>Name:</strong> ${senderName}</p>` : ''}
+            ${name ? `<p><strong>Name:</strong> ${name}</p>` : ''}
             <p><strong>Email:</strong> ${email}</p>
             <p><strong>Message:</strong> ${message}</p>
         </div>

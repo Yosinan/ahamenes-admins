@@ -88,7 +88,7 @@
                 "tags": [
                     "users"
                 ],
-                "summary": "Get Team",
+                "summary": "Get Team Members",
                 "description": "Endpoint to get the team members of Ahamenes Space Club.",
                 "produces": [
                     "application/json"
@@ -256,7 +256,7 @@
                 "tags": [
                     "users"
                 ],
-                "summary": "Search Team Members",
+                "summary": "Search Team Member",
                 "description": "Endpoint to search for team members of Ahamenes Space Club.",
                 "produces": [
                     "application/json"
@@ -288,7 +288,7 @@
                 "tags": [
                     "users"
                 ],
-                "summary": "Get Team Member",
+                "summary": "Get Team Member by ID",
                 "description": "Endpoint to get a team member of Ahamenes Space Club.",
                 "produces": [
                     "application/json"
