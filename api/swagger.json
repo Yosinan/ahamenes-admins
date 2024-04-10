@@ -41,7 +41,7 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "name": {
+                                "senderName": {
                                     "type": "string",
                                     "description": "(Optional) Name of the sender."
                                 },
