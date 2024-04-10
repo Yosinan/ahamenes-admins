@@ -62,7 +62,7 @@
                                 }
                             },
                             "example": {
-                                "name": "John Doe",
+                                "senderName": "John Doe",
                                 "email": "example@example.com",
                                 "subject": "Sample Subject",
                                 "message": "This is a sample message."
